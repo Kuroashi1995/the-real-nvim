@@ -6,9 +6,7 @@ require("kuroashi.autocmds")
 -- set to true if have nerd font in terminal
 vim.g.have_nerd_font = true
 -- sync clipboard between OS and Neovim
-vim.schedule(function()
-	vim.opt.clipboard = 'unnamedplus'
-end)
+
 
 -- personalize line break
 vim.opt.linebreak = true
@@ -28,7 +26,7 @@ vim.opt.incsearch = true
 
 -- gui colors
 vim.opt.termguicolors = true
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
 
 -- keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
@@ -92,3 +90,6 @@ vim.opt.nu = true
 
 -- relative numbers
 vim.opt.relativenumber = true
+
+-- clipboard
+vim.opt.clipboard = "unnamedplus"
