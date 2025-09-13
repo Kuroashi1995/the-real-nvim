@@ -7,6 +7,12 @@ require("kuroashi.autocmds")
 vim.g.have_nerd_font = true
 -- sync clipboard between OS and Neovim
 
+-- personajjlize status line
+vim.cmd [[
+  highlight StatusLine guifg=#ffffff guibg=#005f87
+  highlight StatusLineNC guifg=#888888 guibg=#6a1df0
+]]
+
 
 -- personalize line break
 vim.opt.linebreak = true
@@ -19,8 +25,6 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- case-insensitive searching
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
