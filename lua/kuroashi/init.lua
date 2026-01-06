@@ -34,7 +34,6 @@ vim.opt.termguicolors = true
 
 -- keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
-vim.opt.scrolloff = 8
 vim.opt.isfname:append("@-@")
 
 -- decrease update time
@@ -58,10 +57,10 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 -- linewrap
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 

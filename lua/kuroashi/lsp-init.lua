@@ -1,6 +1,12 @@
 vim.lsp.enable({
 	"pyright",
-	"ts_ls"
+	"ts_ls",
+	"cssls",
+	"gdscript",
+	"marksman",
+	"gopls",
+	"texlab",
+	"sqlls",
 })
 
 vim.diagnostic.config({
