@@ -6,7 +6,7 @@ require("kuroashi.autocmds")
 -- force compiler in windows
 if vim.loop.os_uname().sysname == "Windows_NT" then
   print("we on windows babyyy")
-  require('nvim-treesitter.install').compilers = { "zig" }
+  require('nvim-treesitter.install').compilers = { "clang" }
 end
 
 -- set to true if have nerd font in terminal
