@@ -6,6 +6,7 @@ return {
             "rafamadriz/friendly-snippets",
         },
         version = "*",
+        build = 'cargo build --release',
         config = function()
             require("blink.cmp").setup({
                 snippets = { preset = "luasnip" },
@@ -15,7 +16,7 @@ return {
                     nerd_font_variant = "normal",
                 },
                 sources = {
-                    default = { "lsp", "path", "snippets", "buffer" },
+                    default = { "lsp", "path", "snippets" },
                     providers = {
                         cmdline = {
                             min_keyword_length = 2,

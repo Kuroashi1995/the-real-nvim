@@ -3,6 +3,23 @@ require("kuroashi.lazy")
 require("kuroashi.lsp-init")
 require("kuroashi.autocmds")
 
+-- helps with spaces in CMD
+vim.opt.shellxquote = ""
+-- Obtiene la ruta de datos de Neovim (donde Mason instala cosas)
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+
+-- Agrega esa ruta al PATH de la sesión actual de Neovim
+-- En Windows usamos ';' para separar rutas
+vim.env.PATH = mason_bin .. ";" .. vim.env.PATH
+-- windows shit config
+if vim.fn.has("win32") == 1 then
+  vim.o.shell = "cmd.exe"
+  -- El flag /s es vital para que Windows respete las comillas en las rutas
+  vim.o.shellcmdflag = "/s /c"
+  vim.o.shellquote = ""
+  vim.o.shellxquote = '"' 
+end
+
 -- force compiler in windows
 if vim.loop.os_uname().sysname == "Windows_NT" then
   print("we on windows babyyy")
@@ -19,6 +36,16 @@ vim.cmd [[
   highlight StatusLineNC guifg=#888888 guibg=#6a1df0
 ]]
 
+-- Add this to your statusline string logic
+local function current_function()
+  return require'nvim-treesitter'.statusline({
+    indicator_size = 60,
+    type_patterns = {'class', 'function', 'method'}
+  })
+end
+
+-- change highlight
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2d3f76", blend = 10 })
 
 -- personalize line break
 vim.opt.linebreak = true

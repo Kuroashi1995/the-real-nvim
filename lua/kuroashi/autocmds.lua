@@ -22,8 +22,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("<leader>la", vim.lsp.buf.code_action, "Code Action")
         map("<leader>lr", vim.lsp.buf.rename, "Rename all references")
         map("<leader>lf", vim.lsp.buf.format, "Format")
-        map("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
-        map("<leader>h", "<cmd>split | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
+        map("<leader>v", "<cmd>split | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
+        map("<leader>h", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
+        map("gi", vim.lsp.buf.implementation, "Go to implementation")
+        map("gd", vim.lsp.buf.implementation, "Go to implementation")
 
         local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
@@ -58,6 +60,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
                     vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event2.buf }
                 end,
             })
+            -- TODO: solve later
+            -- local navic = require("nvim-navic")
+            --
+            -- local on_attach_custom = function(client, bufnr)
+            --     if client.server_capabilites.documentSymbolProvider then
+            --         navic.attach(client, bufnr)
+            --     end
+            -- end
         end
     end,
 

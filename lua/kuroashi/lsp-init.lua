@@ -7,6 +7,7 @@ vim.lsp.enable({
 	"gopls",
 	"texlab",
 	"sqlls",
+	"yamlls",
 })
 
 vim.diagnostic.config({
