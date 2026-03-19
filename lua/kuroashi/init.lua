@@ -3,6 +3,9 @@ require("kuroashi.lazy")
 require("kuroashi.lsp-init")
 require("kuroashi.autocmds")
 
+-- add path
+vim.env.PATH = vim.fn.stdpath("data") .. "\\mason\\bin;" .. vim.env.PATH
+
 -- helps with spaces in CMD
 vim.opt.shellxquote = ""
 -- Obtiene la ruta de datos de Neovim (donde Mason instala cosas)
@@ -35,6 +38,15 @@ vim.cmd [[
   highlight StatusLine guifg=#ffffff guibg=#005f87
   highlight StatusLineNC guifg=#888888 guibg=#6a1df0
 ]]
+
+-- Window separator color and format
+vim.api.nvim_set_hl(0, "WinSeparator", {
+  fg = "#936E9A",
+  bg = "NONE",
+  bold = false
+})
+-- Match color hl config
+vim.api.nvim_set_hl(0, "Search", { bg = "#FCE83A", fg = "#010101", bold = true })
 
 -- Add this to your statusline string logic
 local function current_function()
@@ -86,10 +98,11 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 --shiftwidth
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- Matches "useTabs": false and "tabWidth": 2
+vim.opt_local.expandtab = true   -- Use spaces
+vim.opt_local.shiftwidth = 2     -- Indent by 2 spaces
+vim.opt_local.tabstop = 2        -- Visual width of a tab
+vim.opt_local.softtabstop = 2    -- Fine-tune backspace behavior
 
 -- smartindent
 vim.opt.smartindent = true
@@ -103,13 +116,12 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Folding
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.opt.foldcolumn = '0'
-vim.opt.foldtext = ''
+vim.opt.foldmethod= "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 1
-vim.opt.foldnestmax = 2
+vim.opt.foldcolumn = "1"
+vim.opt.foldenable = true
+
 
 vim.opt.scrolloff = 10
 

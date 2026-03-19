@@ -47,5 +47,12 @@ vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
+--highlight current word
+vim.keymap.set("n", "<leader>s", function()
+    local word = vim.fn.expand("<cword>")
+    vim.cmd("match Search /\\<" .. word .. "\\>/")
+end)
+vim.keymap.set("n", "<leader>sc", "<cmd>match none<CR>")
 -- quick search and replace on current word
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
