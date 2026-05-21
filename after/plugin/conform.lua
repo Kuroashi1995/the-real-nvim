@@ -17,58 +17,40 @@ require("conform").setup({
 
 vim.keymap.set("n", "<leader>fc", function()
   local gs = package.loaded.gitsigns
-  local hunks = gs and gs.get_hunks()
-  if not (hunks and #hunks > 0) then return end
+  if not gs then return end
 
-  local bufnr = vim.api.nvim_get_current_buf()
-  local original_text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+  local hunks = gs.get_hunks()
+  if not hunks or vim.tbl_isempty(hunks) then return end
 
-  -- 1. Format the full file in the background (using Conform)
-  -- We use a callback to handle the result after Prettier finishes
-  require("conform").format({
-    formatters = { "prettier" },
-    async = false, -- Synchronous is safer for this 'snapshot' logic
-  })
+  local format = require("conform").format
+  local last_line_in_buffer = vim.api.nvim_buf_line_count(0)
 
-  local formatted_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  local formatted_text = table.concat(formatted_lines, "\n")
-
-  -- 2. Restore the original buffer immediately 
-  -- (We only formatted to see what Prettier WOULD do)
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(original_text, "\n"))
-
-  -- 3. Calculate the Diff (Unified format)
-  -- This gives us 'hunks' of formatting changes
-  local diff = vim.diff(original_text, formatted_text, { result_type = "indices" })
-
-  -- 4. Apply only the diff hunks that overlap with Git Hunks
-  -- We apply from bottom to top so line indices remain valid during execution
-  for i = #diff, 1, -1 do
-    local d = diff[i]
-    local start_orig, count_orig, start_fmt, count_fmt = d[1], d[2], d[3], d[4]
-
-    local should_apply = false
-    for _, ghunk in ipairs(hunks) do
-      -- Check if the Prettier change overlaps with a Git change
-      if start_orig <= (ghunk.added.start + ghunk.added.count) and 
-         (start_orig + count_orig) >= ghunk.added.start then
-        should_apply = true
-        break
-      end
-    end
-
-    if should_apply then
-      -- Extract the correctly formatted lines from our 'formatted_lines' snapshot
-      local new_lines = {}
-      for j = 1, count_fmt do
-        table.insert(new_lines, formatted_lines[start_fmt + j - 1])
-      end
+  -- Iteramos a la inversa para evitar que el cambio de una línea
+  -- afecte los índices de las líneas superiores
+  for i = #hunks, 1, -1 do
+    local hunk = hunks[i]
+    if hunk.type ~= "delete" then
+      local start = hunk.added.start
+      local count = hunk.added.count
       
-      -- Surgically replace only this section
-      -- Note: nvim_buf_set_lines is 0-indexed, start_orig is 1-indexed
-      vim.api.nvim_buf_set_lines(bufnr, start_orig - 1, start_orig - 1 + count_orig, false, new_lines)
+      -- Calculamos el final del rango
+      local last = start + (count > 0 and count - 1 or 0)
+      
+      -- Validamos que el rango esté dentro de los límites del buffer real
+      -- Esto evita el "Index out of bounds"
+      if start <= last_line_in_buffer then
+        last = math.min(last, last_line_in_buffer)
+        
+        format({
+          range = {
+            ["start"] = { start, 0 },
+            ["end"] = { last, 0 },
+          },
+          async = false,
+        })
+      end
     end
   end
-
-  vim.notify("Surgical Format Complete: Hunks Only")
-end, { desc = "Diff-Aware Hunk Format" })
+  
+  vim.notify("Surgical Format Complete")
+end, { desc = "Format Git Hunks Only" })

@@ -3,6 +3,17 @@ require("kuroashi.lazy")
 require("kuroashi.lsp-init")
 require("kuroashi.autocmds")
 
+-- sqlite config
+vim.g.sqlite_clib_path = 'C:/Windows/System32/sqlite3.dll'
+
+--obsidian.nvim conceal level req
+vim.opt.conceallevel = 2
+
+-- En tu init.lua, antes de que carguen los plugins
+vim.g.sleuth_json_heuristics = 0 -- Si existe la opción en tu versión
+-- O simplemente forzar el default
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 -- add path
 vim.env.PATH = vim.fn.stdpath("data") .. "\\mason\\bin;" .. vim.env.PATH
 

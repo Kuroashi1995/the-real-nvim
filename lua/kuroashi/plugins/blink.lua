@@ -23,8 +23,25 @@ return {
                         },
                     },
                 },
+                -- This is the only section we are modifying
                 keymap = {
-                    ["<C-f>"] = {},
+                    preset = 'none', 
+
+                    -- Manual trigger (safe from Space-leader timeouts)
+                    ['<C-x>'] = { 'show', 'show_documentation', 'hide_documentation' }, 
+                    ['<C-e>'] = { 'hide', 'fallback' },
+
+                    -- Confirm selection with your preferred key
+                    ['<C-y>'] = { 'accept', 'fallback' },
+                    ['<CR>']  = { 'accept', 'fallback' }, -- Kept as a safe fallback
+
+                    -- FIX: Classic Vim navigation keys restored for blink
+                    ['<C-n>'] = { 'select_next', 'fallback' },
+                    ['<C-p>'] = { 'select_prev', 'fallback' },
+
+                    -- Scroll the documentation window on the side
+                    ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+                    ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
                 },
                 cmdline = {
                     enabled = false,

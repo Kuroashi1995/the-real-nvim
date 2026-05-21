@@ -2,6 +2,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+
+-- git commands
+vim.keymap.set('n', '<leader>mc', ':Gvdiffsplit!<CR>')
+
 -- Keymap config
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 
@@ -55,4 +59,4 @@ end)
 vim.keymap.set("n", "<leader>sc", "<cmd>match none<CR>")
 -- quick search and replace on current word
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
+vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { desc = "LSP Signature Help" })
