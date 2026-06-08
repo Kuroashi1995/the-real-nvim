@@ -12,7 +12,7 @@ return {
     workspaces = {
       {
         name = "kuroashi",
-        path = "C:/Users/Andrew Halley/Documents/kuroashi/Work/Mango",
+        path = "~/Documents/kuroashi",
       },
     },
     install_commands = true,

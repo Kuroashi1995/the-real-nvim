@@ -1,8 +1,8 @@
 vim.lsp.enable({
 	"pyright",
-	"ts_ls",
+	"vtsls",
 	"cssls",
-	"gdscript",
+	-- "gdscript",
 	"marksman",
 	"gopls",
 	"texlab",
