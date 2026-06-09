@@ -134,20 +134,6 @@ ins_left {
   path = 1,
 }
 
--- TODO: solve later
--- ins_left {
---   function()
---     local status, navic = pcall(require, "nvim-navic")
---     if not status then return "" end
---     return navic.get_location()
---   end,
---   cond = function()
---     local status, navic = pcall(require, "nvim-navic")
---     return status and navic.is_available()
---   end,
---   color = { fg = colors.magenta },
--- }
-
 ins_left { 'location' }
 
 ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
@@ -190,6 +176,21 @@ ins_left {
   end,
   icon = ' LSP:',
   color = { fg = '#ffffff', gui = 'bold' },
+}
+
+-- Integration with doing.nvim (Active Task Tracker)
+ins_left {
+  function()
+    return require("doing").status()
+  end,
+  cond = function()
+    -- Only show this component if doing.nvim is installed and has an active task string
+    local has_doing, doing = pcall(require, "doing")
+    return has_doing and doing.status() ~= ""
+  end,
+  icon = ' 👷 Doing:', -- You can change this icon to anything you prefer
+  color = { fg = colors.orange, gui = 'bold' }, -- Ties beautifully into Eviline's color palette
+  padding = { left = 2, right = 1 },
 }
 
 -- Add components to right sections
