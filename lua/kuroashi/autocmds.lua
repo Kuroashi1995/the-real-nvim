@@ -71,3 +71,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 
 })
+
+-- Open master tracking note in a vertical split with <leader>n
+vim.keymap.set("n", "<leader>n", function()
+  local notes_dir = vim.fn.expand("~/notes/")
+  local note_path = notes_dir .. "tracking.md"
+  
+  -- 1. Create the directory if it doesn't exist yet
+  if vim.fn.isdirectory(notes_dir) == 0 then
+    vim.fn.mkdir(notes_dir, "p")
+  end
+  
+  -- 2. Find if the file is already open in a visible window
+  local target_win = nil
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local name = vim.api.nvim_buf_get_name(buf)
+    if name == note_path then
+      target_win = win
+      break
+    end
+  end
+
+  -- 3. Open or jump to the file
+  if target_win then
+    -- If it's already open, just jump to that window
+    vim.api.nvim_set_current_win(target_win)
+  else
+    -- Otherwise, create a vertical split on the right and open it
+    vim.cmd("vsplit " .. note_path)
+  end
+end, { desc = "Open Tracking Notes in vsplit" })

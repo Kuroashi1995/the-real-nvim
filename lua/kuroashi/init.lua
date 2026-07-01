@@ -157,3 +157,7 @@ vim.opt.relativenumber = true
 
 -- clipboard
 vim.opt.clipboard = "unnamedplus"
+
+
+-- current file to clipboard
+vim.keymap.set("n", "<leader>cp", ':let @+ = expand("%")<CR>', { desc = "copy relative path to clipboard"})
