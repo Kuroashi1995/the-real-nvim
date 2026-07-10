@@ -7,7 +7,7 @@ require("kuroashi.autocmds")
 vim.g.sqlite_clib_path = 'C:/Windows/System32/sqlite3.dll'
 
 --obsidian.nvim conceal level req
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 1
 
 -- En tu init.lua, antes de que carguen los plugins
 vim.g.sleuth_json_heuristics = 0 -- Si existe la opción en tu versión
@@ -127,12 +127,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Folding
-vim.opt.foldmethod= "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldlevel = 99
-vim.opt.foldcolumn = "1"
-vim.opt.foldenable = true
-
+vim.opt.foldmethod= "manual"
 
 vim.opt.scrolloff = 10
 
@@ -164,3 +159,17 @@ vim.keymap.set("n", "<leader>cp", ':let @+ = expand("%")<CR>', { desc = "copy re
 
 
 vim.api.nvim_set_hl(0, "Visual", { bg = "#0F4566", fg = "NONE"})
+
+-- Save fold state when leaving a buffer
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  group = fold_group,
+  pattern = "*",
+  command = "silent! mkview",
+})
+
+-- Load fold state when entering a buffer
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = fold_group,
+  pattern = "*",
+  command = "silent! loadview",
+})
